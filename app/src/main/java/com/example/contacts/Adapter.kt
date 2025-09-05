@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class Adapter(private val data: Array<Contanct>): RecyclerView.Adapter<Adapter.ViewHolder>() {
+class Adapter(private val data: ArrayList<Contanct>): RecyclerView.Adapter<Adapter.ViewHolder>() {
     class ViewHolder(view: View): RecyclerView.ViewHolder(view){
 
     }
