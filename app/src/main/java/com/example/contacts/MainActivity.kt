@@ -31,6 +31,7 @@ class MainActivity : ComponentActivity() {
 
 
         var data = ArrayList<Contanct>()
+        data.add(Contanct("123","123"))
         val adapter = Adapter(data)
 
         binding.rcView.layoutManager = LinearLayoutManager(this)

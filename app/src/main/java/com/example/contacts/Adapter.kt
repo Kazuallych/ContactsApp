@@ -3,20 +3,24 @@ package com.example.contacts
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class Adapter(private val data: ArrayList<Contanct>): RecyclerView.Adapter<Adapter.ViewHolder>() {
     class ViewHolder(view: View): RecyclerView.ViewHolder(view){
-
+        var tvName = view.findViewById<TextView>(R.id.tvName)
+        var tvPhome = view.findViewById<TextView>(R.id.tvPhone)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.shablon,parent,false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.shablon_main,parent,false)
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
+        val item = data[position]
+        holder.tvName.text = item.name
+        holder.tvPhome.text = item.phone
     }
 
     override fun getItemCount(): Int {
