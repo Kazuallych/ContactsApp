@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">Contacts</string>
-    <string name="btAdd">+</string>
     <string name="title_activity_shablon">Shablon</string>
+    <string name="btAdd">+</string>
+    <string name="nameUser">Введите имя</string>
+    <string name="phoneUser">Введите номер телефона</string>
+    <string name="done">Готово</string>
+    <string name="cancel">Отмена</string>
+
 </resources>

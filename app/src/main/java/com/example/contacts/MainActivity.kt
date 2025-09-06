@@ -38,7 +38,9 @@ class MainActivity : ComponentActivity() {
 
         launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
             result: ActivityResult->
-
+            val newContact = Contanct(result.data?.getStringExtra("nameAdd").toString(),result.data?.getStringExtra("phoneAdd").toString())
+            data.add(newContact)
+            adapter.notifyItemInserted(data.size-1)
         }
 
         binding.btAdd.setOnClickListener {
