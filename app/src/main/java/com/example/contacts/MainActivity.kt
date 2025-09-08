@@ -30,7 +30,7 @@ class MainActivity : ComponentActivity() {
         setContentView(binding.root)
 
 
-        var data = ArrayList<Contanct>()
+        val data = ArrayList<Contanct>()
         data.add(Contanct("123","123"))
         val adapter = Adapter(data)
 

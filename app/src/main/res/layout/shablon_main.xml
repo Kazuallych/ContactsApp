@@ -43,6 +43,14 @@
                 android:inputType="phone"
                 android:textSize="24sp" />
 
+            <Button
+                android:id="@+id/btDel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#EF1212"
+                android:text="@string/delete"
+                android:textColor="#E0D9D9" />
+
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

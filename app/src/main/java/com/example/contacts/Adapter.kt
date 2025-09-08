@@ -3,6 +3,7 @@ package com.example.contacts
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
@@ -10,6 +11,8 @@ class Adapter(private val data: ArrayList<Contanct>): RecyclerView.Adapter<Adapt
     class ViewHolder(view: View): RecyclerView.ViewHolder(view){
         var tvName = view.findViewById<TextView>(R.id.tvName)
         var tvPhome = view.findViewById<TextView>(R.id.tvPhone)
+
+        var btDel = view.findViewById<Button>(R.id.btDel)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -21,6 +24,10 @@ class Adapter(private val data: ArrayList<Contanct>): RecyclerView.Adapter<Adapt
         val item = data[position]
         holder.tvName.text = item.name
         holder.tvPhome.text = item.phone
+
+        holder.btDel.setOnClickListener {
+
+        }
     }
 
     override fun getItemCount(): Int {
