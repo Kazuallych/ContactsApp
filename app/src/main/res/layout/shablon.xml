@@ -56,14 +56,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/done" />
+                    android:backgroundTint="#1EAFE4"
+                    android:text="@string/done"
+                    android:textColor="#EFEDED"
+                    android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/btCancel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/cancel" />
+                    android:backgroundTint="#CE4C4C"
+                    android:text="@string/cancel"
+                    android:textColor="#EFEDED"
+                    android:textStyle="bold" />
             </LinearLayout>
 
         </LinearLayout>

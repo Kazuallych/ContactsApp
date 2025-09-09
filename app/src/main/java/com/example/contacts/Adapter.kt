@@ -1,5 +1,6 @@
 package com.example.contacts
 
+import OnDeleteItem
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,7 +8,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class Adapter(private val data: ArrayList<Contanct>): RecyclerView.Adapter<Adapter.ViewHolder>() {
+class Adapter(private val data: ArrayList<Contanct>,private val delete:OnDeleteItem): RecyclerView.Adapter<Adapter.ViewHolder>() {
     class ViewHolder(view: View): RecyclerView.ViewHolder(view){
         var tvName = view.findViewById<TextView>(R.id.tvName)
         var tvPhome = view.findViewById<TextView>(R.id.tvPhone)
@@ -26,7 +27,7 @@ class Adapter(private val data: ArrayList<Contanct>): RecyclerView.Adapter<Adapt
         holder.tvPhome.text = item.phone
 
         holder.btDel.setOnClickListener {
-
+            delete.onDeleteItem(position)
         }
     }
 
