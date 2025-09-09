@@ -13,8 +13,14 @@ class Shablon: ComponentActivity() {
 
         binding = ShablonBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        //занос данных при редактировании
+        if(binding.edName.text.toString() =="" &&binding.edPhone.text.toString()==""){
+            binding.edName.setText(intent.getStringExtra("edName"))
+            binding.edPhone.setText(intent.getStringExtra("edPhone"))
+        }
 
         binding.btDone.setOnClickListener {
+
             val intent = Intent()
             intent.putExtra("nameAdd",binding.edName.text.toString())
             intent.putExtra("phoneAdd",binding.edPhone.text.toString())

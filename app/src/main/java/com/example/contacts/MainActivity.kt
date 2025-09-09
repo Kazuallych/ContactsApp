@@ -9,6 +9,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.registerForActivityResult
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -24,6 +25,7 @@ import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity(),OnDeleteItem {
     private var launcher: ActivityResultLauncher<Intent>? = null
+    private var editLauncher: ActivityResultLauncher<Intent>? = null
     lateinit var binding: ActivityMainBinding
     lateinit var adapter: Adapter
     lateinit var data: ArrayList<Contanct>
@@ -32,13 +34,20 @@ class MainActivity : ComponentActivity(),OnDeleteItem {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        var currentPosition = 0
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         data = ArrayList()
         data.add(Contanct("123","123"))
-        adapter = Adapter(data,this)
+        adapter = Adapter({position->
+            val i = Intent(this, Shablon::class.java)
+            i.putExtra("edName",data[position].name)
+            i.putExtra("edPhone",data[position].phone)
+            currentPosition = position
+            editLauncher?.launch(i)
+        },data,this)
 
         binding.rcView.layoutManager = LinearLayoutManager(this)
         binding.rcView.adapter = adapter
@@ -49,7 +58,12 @@ class MainActivity : ComponentActivity(),OnDeleteItem {
             data.add(newContact)
             adapter.notifyItemInserted(data.size-1)
         }
-
+        editLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+            result: ActivityResult->
+            data[currentPosition].name = result.data?.getStringExtra("nameAdd").toString()
+            data[currentPosition].phone = result.data?.getStringExtra("phoneAdd").toString()
+            adapter.notifyItemChanged(currentPosition)
+        }
         binding.btAdd.setOnClickListener {
             launcher?.launch(Intent(this@MainActivity, Shablon::class.java))
         }

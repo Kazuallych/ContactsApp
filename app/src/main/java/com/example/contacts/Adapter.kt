@@ -8,7 +8,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class Adapter(private val data: ArrayList<Contanct>,private val delete:OnDeleteItem): RecyclerView.Adapter<Adapter.ViewHolder>() {
+class Adapter(private val onDeleteClick: (Int) -> Unit,private val data: ArrayList<Contanct>,private val delete:OnDeleteItem): RecyclerView.Adapter<Adapter.ViewHolder>() {
     class ViewHolder(view: View): RecyclerView.ViewHolder(view){
         var tvName = view.findViewById<TextView>(R.id.tvName)
         var tvPhome = view.findViewById<TextView>(R.id.tvPhone)
@@ -22,12 +22,16 @@ class Adapter(private val data: ArrayList<Contanct>,private val delete:OnDeleteI
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = data[position]
+        val item = data[holder.bindingAdapterPosition]
         holder.tvName.text = item.name
         holder.tvPhome.text = item.phone
 
         holder.btDel.setOnClickListener {
-            delete.onDeleteItem(position)
+            delete.onDeleteItem(holder.bindingAdapterPosition)
+        }
+
+        holder.itemView.setOnClickListener {
+            onDeleteClick(holder.bindingAdapterPosition)
         }
     }
 
