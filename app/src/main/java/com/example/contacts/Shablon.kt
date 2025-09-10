@@ -20,7 +20,6 @@ class Shablon: ComponentActivity() {
         }
 
         binding.btDone.setOnClickListener {
-
             val intent = Intent()
             intent.putExtra("nameAdd",binding.edName.text.toString())
             intent.putExtra("phoneAdd",binding.edPhone.text.toString())
