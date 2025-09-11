@@ -69,6 +69,8 @@ class MainActivity : ComponentActivity(),OnDeleteItem {
         }
     }
     override fun onDeleteItem(position: Int) {
+
+        
         data.removeAt(position)
         adapter.notifyItemRemoved(position)
         adapter.notifyItemRangeChanged(position,adapter.itemCount-position)
