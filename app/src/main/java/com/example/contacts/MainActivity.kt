@@ -3,25 +3,16 @@ package com.example.contacts
 import OnDeleteItem
 import android.content.Intent
 import android.os.Bundle
+import android.widget.SearchView
+import android.widget.Toast
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.result.registerForActivityResult
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.contacts.databinding.ActivityMainBinding
-import com.example.contacts.ui.theme.ContactsTheme
-import kotlinx.coroutines.launch
+import java.util.Locale
+
 
 class MainActivity : ComponentActivity(),OnDeleteItem {
     private var launcher: ActivityResultLauncher<Intent>? = null
@@ -62,11 +53,44 @@ class MainActivity : ComponentActivity(),OnDeleteItem {
             result: ActivityResult->
             data[currentPosition].name = result.data?.getStringExtra("nameAdd").toString()
             data[currentPosition].phone = result.data?.getStringExtra("phoneAdd").toString()
-            adapter.notifyItemChanged(currentPosition)
+            adapter.notifyItemChanged(currentPosition, adapter.itemCount)
         }
+
         binding.btAdd.setOnClickListener {
             launcher?.launch(Intent(this@MainActivity, Shablon::class.java))
         }
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextChange(newText: String?): Boolean {
+                filterList(newText)
+                return true
+            }
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+        })
+    }
+    private fun filterList(query: String?){
+        if(query != null){
+            var filteredList = ArrayList<Contanct>()
+            for(i in data){
+                if(i.name.lowercase(Locale.ROOT).contains(query)){
+                    filteredList.add(i)
+                }
+            }
+
+            if(filteredList.isEmpty()){
+                Toast.makeText(this,"Ничего нет", Toast.LENGTH_SHORT).show()
+            }else{
+                if(query ==""){
+                    filteredList = data
+                    adapter.setFilteredData(filteredList)
+                }else{
+                    adapter.setFilteredData(filteredList)
+                }
+            }
+        }
+
     }
     override fun onDeleteItem(position: Int) {
         data.removeAt(position)
