@@ -109,7 +109,6 @@ class MainActivity : ComponentActivity(),OnDeleteItem {
                 adapter.setFilteredData(filteredList)
             }
         }
-
     }
     override fun onDeleteItem(item: Contanct,position:Int) {
         if(filteredList.isNotEmpty()){
