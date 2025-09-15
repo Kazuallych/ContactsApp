@@ -3,6 +3,8 @@ package com.example.contacts
 import OnDeleteItem
 import android.content.Intent
 import android.os.Bundle
+import android.provider.ContactsContract
+import android.util.Log
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -20,18 +22,21 @@ class MainActivity : ComponentActivity(),OnDeleteItem {
     lateinit var binding: ActivityMainBinding
     lateinit var adapter: Adapter
     lateinit var data: ArrayList<Contanct>
+    lateinit var filteredList :ArrayList<Contanct>
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         var currentPosition = 0
+        filteredList = ArrayList()
+
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         data = ArrayList()
-        data.add(Contanct("123","123"))
         adapter = Adapter({position->
             val i = Intent(this, Shablon::class.java)
             i.putExtra("edName",data[position].name)
@@ -45,15 +50,27 @@ class MainActivity : ComponentActivity(),OnDeleteItem {
 
         launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
             result: ActivityResult->
-            val newContact = Contanct(result.data?.getStringExtra("nameAdd").toString(),result.data?.getStringExtra("phoneAdd").toString())
-            data.add(newContact)
-            adapter.notifyItemInserted(data.size-1)
+            if(result.resultCode== RESULT_OK){
+                var id = 0
+                if(data.size==0){
+                    id=0
+                }else {
+                    id = data[data.size-1].id+1
+                }
+                val newContact = Contanct(result.data?.getStringExtra("nameAdd").toString(),result.data?.getStringExtra("phoneAdd").toString(),id)
+                data.add(newContact)
+                Log.d("MyLog","${data[data.size-1].id} добавил")
+                adapter.notifyItemInserted(data.size-1)
+            }
         }
         editLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
             result: ActivityResult->
-            data[currentPosition].name = result.data?.getStringExtra("nameAdd").toString()
-            data[currentPosition].phone = result.data?.getStringExtra("phoneAdd").toString()
-            adapter.notifyItemChanged(currentPosition, adapter.itemCount)
+            if(result.resultCode ==RESULT_OK){
+                data[currentPosition].name = result.data?.getStringExtra("nameAdd").toString()
+                data[currentPosition].phone = result.data?.getStringExtra("phoneAdd").toString()
+                adapter.notifyItemChanged(currentPosition, adapter.itemCount)
+            }
+
         }
 
         binding.btAdd.setOnClickListener {
@@ -72,31 +89,32 @@ class MainActivity : ComponentActivity(),OnDeleteItem {
     }
     private fun filterList(query: String?){
         if(query != null){
-            var filteredList = ArrayList<Contanct>()
             for(i in data){
-                if(i.name.lowercase(Locale.ROOT).contains(query)){
+                if(i.name.lowercase(Locale.ROOT).contains(query)) {
                     filteredList.add(i)
                 }
             }
-
             if(filteredList.isEmpty()){
+                filteredList = data
+                adapter.setFilteredData(filteredList)
+                filteredList = ArrayList()
                 Toast.makeText(this,"Ничего нет", Toast.LENGTH_SHORT).show()
             }else{
-                if(query ==""){
-                    filteredList = data
-                    adapter.setFilteredData(filteredList)
-                }else{
-                    adapter.setFilteredData(filteredList)
-                }
+                Log.d("MyLog","хуйня")
+                adapter.setFilteredData(filteredList)
             }
         }
 
     }
-    override fun onDeleteItem(position: Int) {
-        
-        data.removeAt(position)
+    override fun onDeleteItem(item: Contanct,position:Int) {
+        if(filteredList.isNotEmpty()){
+            filteredList.removeAt(position)
+        }
+
+        val index = data.indexOf(item)
+        Log.d("MyLog","$index удалил")
+        data.removeAt(index)
         adapter.notifyItemRemoved(position)
-        adapter.notifyItemRangeChanged(position,adapter.itemCount-position)
     }
 
 }

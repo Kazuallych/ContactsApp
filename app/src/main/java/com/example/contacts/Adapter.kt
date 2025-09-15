@@ -18,9 +18,7 @@ class Adapter(private val onEditClick: (Int) -> Unit,var data: ArrayList<Contanc
     }
 
     fun setFilteredData(data: ArrayList<Contanct>){
-
         this.data = data
-        Log.d("MyLog","хуйнфя сработала")
         notifyDataSetChanged()
     }
 
@@ -35,12 +33,13 @@ class Adapter(private val onEditClick: (Int) -> Unit,var data: ArrayList<Contanc
         holder.tvPhome.text = item.phone
         // удаление элемента
         holder.btDel.setOnClickListener {
-            delete.onDeleteItem(holder.bindingAdapterPosition)
+            delete.onDeleteItem(data[holder.bindingAdapterPosition],holder.bindingAdapterPosition)
         }
         //Запуск редактирования
         holder.itemView.setOnClickListener {
             onEditClick(holder.bindingAdapterPosition)
         }
+        Log.d("MyLog","сделал")
     }
 
     override fun getItemCount(): Int {

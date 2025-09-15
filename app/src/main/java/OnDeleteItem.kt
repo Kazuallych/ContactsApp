@@ -1,3 +1,5 @@
+import com.example.contacts.Contanct
+
 interface OnDeleteItem {
-    fun onDeleteItem(position: Int)
+    fun onDeleteItem(item: Contanct,position:Int)
 }

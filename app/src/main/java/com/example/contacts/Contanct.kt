@@ -1,3 +1,3 @@
 package com.example.contacts
 
-data class Contanct(var name:String,var phone: String)
+data class Contanct(var name:String,var phone: String,var id:Int)
