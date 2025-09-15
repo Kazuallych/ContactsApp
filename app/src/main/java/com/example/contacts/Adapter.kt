@@ -9,7 +9,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class Adapter(private val onEditClick: (Int) -> Unit,var data: ArrayList<Contanct>,private val delete:OnDeleteItem): RecyclerView.Adapter<Adapter.ViewHolder>() {
+class Adapter(private val onEditClick: (Int, Contanct) -> Unit, var data: ArrayList<Contanct>, private val delete:OnDeleteItem): RecyclerView.Adapter<Adapter.ViewHolder>() {
     class ViewHolder(view: View): RecyclerView.ViewHolder(view){
         var tvName = view.findViewById<TextView>(R.id.tvName)
         var tvPhome = view.findViewById<TextView>(R.id.tvPhone)
@@ -37,9 +37,8 @@ class Adapter(private val onEditClick: (Int) -> Unit,var data: ArrayList<Contanc
         }
         //Запуск редактирования
         holder.itemView.setOnClickListener {
-            onEditClick(holder.bindingAdapterPosition)
+            onEditClick(holder.bindingAdapterPosition,data[holder.bindingAdapterPosition])
         }
-        Log.d("MyLog","сделал")
     }
 
     override fun getItemCount(): Int {
