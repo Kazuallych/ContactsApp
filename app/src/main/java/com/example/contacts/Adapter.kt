@@ -1,6 +1,6 @@
 package com.example.contacts
 
-import OnDeleteItem
+import com.example.contacts.OnDeleteItem
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
