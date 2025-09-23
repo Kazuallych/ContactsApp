@@ -107,8 +107,10 @@ class MainActivity : ComponentActivity(),OnDeleteItem {
             for(i in data){
                 if(i.name.lowercase(Locale.ROOT).contains(query)) {
                     filteredList.add(i)
-                    Log.d("MyLog","${filteredList.size}")
                 }
+//                }else if(i.phone.lowercase(Locale.ROOT).contains(query)){
+//                    filteredList.add(i)
+//                }
             }
             if(query==""){
                 filteredList = data
