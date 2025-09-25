@@ -104,24 +104,27 @@ class MainActivity : ComponentActivity(),OnDeleteItem {
 
     private fun filterList(query: String?){
         if(query != null){
+            filteredList = ArrayList()
             for(i in data){
-                if(i.name.lowercase(Locale.ROOT).contains(query)) {
+                if(((i.name.lowercase(Locale.ROOT).contains(query))||i.phone.lowercase(Locale.ROOT).contains(query))) {
                     filteredList.add(i)
                 }
-//                }else if(i.phone.lowercase(Locale.ROOT).contains(query)){
-//                    filteredList.add(i)
-//                }
             }
+
+            if(filteredList.isEmpty()){
+                filteredList = ArrayList()
+                adapter.setFilteredData(filteredList)
+                Toast.makeText(this,"Ничего нет", Toast.LENGTH_SHORT).show()
+            }else{
+                adapter.setFilteredData(filteredList)
+            }
+
             if(query==""){
                 filteredList = data
                 adapter.setFilteredData(filteredList)
                 filteredList = ArrayList()
             }
-            if(filteredList.isEmpty()){
-                Toast.makeText(this,"Ничего нет", Toast.LENGTH_SHORT).show()
-            }else{
-                adapter.setFilteredData(filteredList)
-            }
+
         }
     }
     override fun onDeleteItem(item: Contanct,position:Int) {
