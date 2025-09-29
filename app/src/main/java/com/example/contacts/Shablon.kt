@@ -20,6 +20,10 @@ class Shablon: ComponentActivity() {
         }
 
         binding.btDone.setOnClickListener {
+            if(binding.edPhone.text.toString()==""){
+                binding.edPhone.error = "Не корректный номер телефона"
+                return@setOnClickListener
+            }
             if((binding.edPhone.text[0] =='7'||binding.edPhone.text[0] =='8')&&binding.edPhone.text.length==11) {
                 val intent = Intent()
                 intent.putExtra("nameAdd", binding.edName.text.toString())
